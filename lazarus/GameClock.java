@@ -19,7 +19,7 @@ public class GameClock extends Observable {
 	// Increases frame by one, updating observers along the way.
 	public void tick(){
 		frame += 1;
-		setChange();
+		setChanged();
 		this.notifyObservers();
 	}
 	
