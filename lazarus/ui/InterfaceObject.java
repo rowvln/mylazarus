@@ -1,5 +1,5 @@
 /* InterfaceObject Constructor for Lazarus game */
-package lazarus-game.Ui;
+package lazarus.ui;
 
 import java.awt.Graphics;
 import java.awt.Point;

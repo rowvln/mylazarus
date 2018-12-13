@@ -46,7 +46,7 @@ public class SoundPlayer {
                        }
                     }
                }
-           }
+           };
 
            Thread thread = new Thread(myRunnable);
            thread.start();

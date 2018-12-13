@@ -6,7 +6,7 @@ import java.util.ListIterator;
 import lazarus.GameSounds;
 import lazarus.GameWorld;
 import lazarus.main.PlayerShip;
-import lazarus.main.enemy.Box;
+import lazarus.main.boxes.Box;
 import lazarus.etc.motions.InputController;
 
 public class Lazarus extends PlayerShip{
@@ -82,7 +82,7 @@ public class Lazarus extends PlayerShip{
                 else {
             	location.y = 161;
             	GameSounds.play("Resources/Move.wav");
-            	if (location.x == Wall.firstx || location.x == Wall.secondx-40){
+            	if (location.x == Wall.firstX || location.x == Wall.secondX - 40){
             		LazarusLevel.endgameDelay = 0;
             		GameSounds.play("Resources/Button.wav");
             		LazarusWorld.gameWon = true;
