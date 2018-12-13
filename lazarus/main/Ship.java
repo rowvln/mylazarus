@@ -7,7 +7,7 @@ import lazarus.LazarusWorld;
 import lazarus.etc.motions.MotionController;
 
 
-/* Ships are things that have weapons and health */
+// Ships are things that have weapons and health. Derived from Wingman code
 public class Ship extends MoveableObject {
 	protected int health;
 	protected Point gunLocation;

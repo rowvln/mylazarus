@@ -6,7 +6,7 @@ import java.awt.Point;
 import lazarus.GameWorld;
 
 
-/*BackgroundObjects move at speed of 1 and are not collidable*/
+// BackgroundObjects move at speed of 1 and are not collidable
 public class BackgroundObject extends GameObject {
 	public BackgroundObject(Point location, Image img){
 		super(location, GameWorld.getSpeed(), img);

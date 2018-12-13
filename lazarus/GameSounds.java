@@ -1,6 +1,7 @@
 /* GameSounds plays from the JLayer library */
 package lazarus;
 
+// Imports IO Exception library
 import java.io.IOException;
 
 // imports libraries from sound.sampled.*
@@ -12,9 +13,11 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
+// GameSounds class creates new sound loops cased on different sound files
 public class GameSounds {
     public static final GameSounds sounds = new GameSounds();
     
+    // Plays a given sound loop. If not, it throws an exception error
     public static void playLoop(String filename)
     {
         try
@@ -29,6 +32,7 @@ public class GameSounds {
         }
     }
     
+    // Plays a given sound clip. If not, it throws an exception error
     public static void playClip(String filename)
     {
         try
@@ -43,6 +47,7 @@ public class GameSounds {
         }
     }
     
+    // Creates a new thread to try and get the file to play. If not, an error is thrown
     public static void play(final String filename)
     {
       try {
@@ -70,6 +75,7 @@ public class GameSounds {
       }
     }
 
+    // Similar to play but plays the raw version of the soundfile
     private static void rawplay(AudioFormat targetFormat, AudioInputStream din) throws IOException,                                                                                                LineUnavailableException
     {
       byte[] data = new byte[4096];
@@ -92,6 +98,7 @@ public class GameSounds {
       } 
     }
 
+    // gets the line
     private static SourceDataLine getLine(AudioFormat audioFormat) throws LineUnavailableException
     {
       SourceDataLine res = null;

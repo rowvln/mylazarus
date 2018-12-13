@@ -9,7 +9,15 @@ import lazarus.main.PlayerShip;
 import lazarus.main.boxes.Box;
 import lazarus.etc.motions.InputController;
 
-public class Lazarus extends PlayerShip{
+// Larazus class extends from the PlayerShip object from Wingmans code.
+public class Lazarus extends PlayerShip {
+
+    int prevRight;
+    int prevLeft;
+    int prevUp;
+    int prevDown;
+
+    // Lazarus like the Playership has a location, image, controls, and name
 	public Lazarus(Point location, Image img, int controls[], String name){
         super(location, new Point(0, 0), img, controls, name);
         prevRight = 0;
@@ -24,6 +32,7 @@ public class Lazarus extends PlayerShip{
         this.location = new Rectangle(location.x, location.y, width, height);
     }
 
+    // checks to see if player collided with the wall
     private boolean isPlayerWallCollision(){
         for(ListIterator wallList = LazarusWorld.getInstance().getWalls(); wallList.hasNext();){
             Wall nWall = (Wall)wallList.next();
@@ -40,6 +49,7 @@ public class Lazarus extends PlayerShip{
         return false;
     }
 
+    // checks if player collided with box object
     private boolean isPlayerBoxCollision(){
         int Col = location.x / 40;
         for(ListIterator boxlist = LazarusWorld.getInstance().getRestedboxesAtCol(Col);
@@ -64,6 +74,7 @@ public class Lazarus extends PlayerShip{
         }
     }
 
+    // updates observers based on key pressed or collisions
     public void update(int w, int h){
         if(prevRight != right || prevLeft != left){
             prevRight = right;
@@ -93,6 +104,7 @@ public class Lazarus extends PlayerShip{
         }
     }
 
+    // if player collided with box, die will reduce lives and play dead animation
     public void die(){
     		lives--;
         if(lives == 0 && LazarusWorld.squished == true){
@@ -107,14 +119,10 @@ public class Lazarus extends PlayerShip{
         
     }
 
+    // used to reset the game or level. reverts counter back to normal life, health, and location
     public void reset(){
         setLocation(resetPoint);
         health = strength;
         respawnCounter = 100;
     }
-
-    int prevRight;
-    int prevLeft;
-    int prevUp;
-    int prevDown;
 }

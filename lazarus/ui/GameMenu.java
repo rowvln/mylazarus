@@ -16,7 +16,7 @@ import lazarus.main.PlayerShip;
 import lazarus.etc.AbstractGameModifier;
 import lazarus.etc.motions.MenuController;
 
-
+// Game Menu class creates a menu from InterfaceObject
 public class GameMenu extends InterfaceObject {
 	public static int selection;
 	MenuController controller;
@@ -27,6 +27,8 @@ public class GameMenu extends InterfaceObject {
 		controller = new MenuController(this);
 		waiting = true;
 	}
+
+	// draws the menu
 	public void draw(Graphics g2, int x, int y){
 		g2.setFont(new Font("Ravie", Font.PLAIN, 20));
 		if(selection==0)
@@ -51,19 +53,22 @@ public class GameMenu extends InterfaceObject {
 		g2.drawString("Quit", 200, 430);
 	}
 	
+	// checks for down key
 	public void down(){
-		if(selection<3)
+		if(selection < 3)
 			selection++;
 		GameSounds.play("Resources/Click.wav");
 	}
 	
+	// checks for up key
 	public void up(){
-		if(selection>0)
+		if(selection > 0)
 			selection--;
 
 		GameSounds.play("Resources/Click.wav");
 	}
 	
+	// checks for selection
 	public void applySelection(){
 		LazarusWorld world = LazarusWorld.getInstance();
 		Dimension size = world.getSize();
@@ -88,14 +93,16 @@ public class GameMenu extends InterfaceObject {
 		
 		controller.deleteObservers();
 		world.removeKeyListener(controller);
-		waiting=false;
+		waiting = false;
 	}
 	
+	// updates observer with motified actions
 	public void update(Observable o, Object arg) {
 		AbstractGameModifier modifier =  (AbstractGameModifier) o;
 		modifier.read(this);
 	}
 	
+	// returns current waiting state
 	public boolean isWaiting(){
 		return this.waiting;
 	}

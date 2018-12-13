@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Point;
 import lazarus.main.Ship;
 
+// Box constructor for Card, Metal, Stone, and Wood
 public class Box extends Ship{
 	public Box(Point position, Point speed, int strength, Image img){
         super(position, speed, strength, img);

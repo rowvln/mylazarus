@@ -7,11 +7,12 @@ import java.util.Observable;
  * player movements
  * player input
  * level events
- * */
+ *
+ */
 public abstract class AbstractGameModifier extends Observable{
 	
 	public AbstractGameModifier(){}
 	
-	/* read is used to send messages from game observables to game observers */
+	// read is used to send messages from game observables to game observers
 	public abstract void read(Object theObject);
 }

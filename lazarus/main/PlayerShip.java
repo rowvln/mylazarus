@@ -12,16 +12,17 @@ import lazarus.LazarusWorld;
 import lazarus.etc.AbstractGameModifier;
 import lazarus.etc.motions.InputController;
 
-
+// PlayerShips are derived from Wingman code
 public class PlayerShip extends Ship implements Observer{
     protected int lives;
     protected int score;
     protected Point resetPoint;
     public int respawnCounter;
-    protected int lastFired=0;
-    protected boolean isFiring=false;
+    protected int lastFired = 0;
+    protected boolean isFiring = false;
+
     // movement flags
-    public int left=0,right=0,up=0,down=0;
+    public int left = 0,right = 0,up = 0,down = 0;
     protected String name;
 
     public PlayerShip(Point location, Point speed, Image img, int[] controls, String name) {
@@ -35,34 +36,37 @@ public class PlayerShip extends Ship implements Observer{
         health = 100;
         strength = 100;
         score = 0;
-        respawnCounter=0;
+        respawnCounter = 0;
     }
 
     public void draw(Graphics g, ImageObserver observer) {
-    	if(respawnCounter<=0)
+    	if(respawnCounter <= 0){
     		g.drawImage(img, location.x, location.y, observer);
-    	else if(respawnCounter==80){
+        }
+    	else if(respawnCounter == 80){
     		LazarusWorld.getInstance().addClockObserver(this.motion);
-    		respawnCounter -=1;
-    	}
-    	else
     		respawnCounter -= 1;
+    	}
+    	else{
+    		respawnCounter -= 1;
+        }
     }
     
     public void damage(int damageDone){
-    	if(respawnCounter<=0)
+    	if(respawnCounter <= 0){
     		super.damage(damageDone);
+        }
     }
     
     public void update(int w, int h) {
     	
     }
     public void startFiring(){
-    	isFiring=true;
+    	isFiring = true;
     }
     
     public void stopFiring(){
-    	isFiring=false;
+    	isFiring = false;
     }
     
     public void fire()
@@ -73,9 +77,9 @@ public class PlayerShip extends Ship implements Observer{
     }
     
     public void die(){
-    	this.show=false;
-    	lives-=1;
-    	if(lives>=0){
+    	this.show = false;
+    	lives -= 1;
+    	if(lives >= 0){
     		LazarusWorld.getInstance().removeClockObserver(this.motion);
     		reset();
     	}
@@ -86,8 +90,8 @@ public class PlayerShip extends Ship implements Observer{
     
     public void reset(){
     	this.setLocation(resetPoint);
-    	health=strength;
-    	respawnCounter=160;
+    	health = strength;
+    	respawnCounter = 160;
     }
     
     public Point getPoint(){
@@ -111,10 +115,12 @@ public class PlayerShip extends Ship implements Observer{
     }
     
     public boolean isDead(){
-    	if(health<=0)
+    	if(health <= 0){
     		return true;
-    	else
+        }
+    	else{
     		return false;
+        }
     }
     
 	public void update(Observable o, Object arg) {

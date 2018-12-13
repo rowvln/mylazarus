@@ -7,7 +7,7 @@ import lazarus.etc.motions.MotionController;
 import lazarus.etc.motions.NullMotion;
 
 
-/*MoveableObjects have movement behaviors*/
+// MoveableObjects have movement behaviors
 public class MoveableObject extends GameObject {
 	protected int strength;
 	protected MotionController motion;

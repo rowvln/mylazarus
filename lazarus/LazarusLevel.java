@@ -21,6 +21,7 @@ import lazarus.main.boxes.WoodBox;
 import lazarus.etc.AbstractGameModifier;
 import lazarus.ui.GameMenu;
 
+// Creates the level from a textfile and implements observers to watch for updates/changes
 public class LazarusLevel extends AbstractGameModifier implements Observer{
   int start;
   Integer position;
@@ -32,6 +33,8 @@ public class LazarusLevel extends AbstractGameModifier implements Observer{
   int h;
   static int endgameDelay = 5;
   Random generator = new Random();
+
+  // creates the level from filename and tries to render what the map will look like
   public LazarusLevel(String filename){
     this.filename = filename;
     try{
@@ -51,8 +54,10 @@ public class LazarusLevel extends AbstractGameModifier implements Observer{
     }
   }
   
-  public void read(Object theObject) {}
+  // reads the passed object
+  public void read(Object anObject) {}
   
+  // loads the structure of the map by creating a new instance
   public void load(){
     LazarusWorld world = LazarusWorld.getInstance();
     try{
@@ -101,6 +106,7 @@ public class LazarusLevel extends AbstractGameModifier implements Observer{
     }
   }
   
+  // updates observers and objects based on actions
   public void update(Observable o, Object arg){
     LazarusWorld world = LazarusWorld.getInstance();
     if (world.countFallingboxes() < 1){
@@ -108,19 +114,27 @@ public class LazarusLevel extends AbstractGameModifier implements Observer{
       Box box = getRandomBox(0, 440);
       this.currentBox = this.nextBox;
       ListIterator<PlayerShip> players = world.getPlayers();
+
       while (players.hasNext()){
         Lazarus player = (Lazarus)players.next();
         playerloc = player.getLocation();
       }
+
       this.currentBox.setLocation(new Point(playerloc.x, 0));
-      if (GameMenu.selection == 0)
+
+      if (GameMenu.selection == 0){
     	  this.currentBox.setSpeed(new Point(0, 2));
-      else if (GameMenu.selection == 1)
+      }
+      else if (GameMenu.selection == 1){
     	  this.currentBox.setSpeed(new Point(0, 4));
-      else if (GameMenu.selection == 2)
+      }
+      else if (GameMenu.selection == 2){
     	  this.currentBox.setSpeed(new Point(0, 6));
+      }
+
       world.addFallingbox(new Box[] { this.currentBox });
       this.nextBox = box;
+
       world.addBackground(new Box[] { this.nextBox });
       setChanged();
       notifyObservers();
@@ -136,21 +150,22 @@ public class LazarusLevel extends AbstractGameModifier implements Observer{
     }
   }
   
+  // gets a random box and uses it as the next box dropped
   private Box getRandomBox(int x, int y){
-    Box nbox = null;
+    Box newBox = null;
     int i = this.generator.nextInt(4) + 1;
     if (i == 1) {
-      nbox = new CardBox(x, y);
+      newBox = new CardBox(x, y);
     } 
     else if (i == 2) {
-      nbox = new WoodBox(x, y);
+      newBox = new WoodBox(x, y);
     } 
     else if (i == 3) {
-      nbox = new MetalBox(x, y);
+      newBox = new MetalBox(x, y);
     } 
     else if (i == 4) {
-      nbox = new StoneBox(x, y);
+      newBox = new StoneBox(x, y);
     }
-    return nbox;
+    return newBox;
   }
 }

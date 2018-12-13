@@ -41,9 +41,9 @@ import lazarus.main.boxes.Box;
 import lazarus.ui.GameMenu;
 import lazarus.ui.InterfaceObject;
 
-
+// Functions as an ongoing game world where all actions take place until termination
 public class LazarusWorld extends GameWorld{
-private Thread thread;
+  private Thread thread;
   private static LazarusWorld game = new LazarusWorld();
   public static final GameSounds sound = new GameSounds();
   public static final GameClock clock = new GameClock();
@@ -70,14 +70,15 @@ private Thread thread;
   boolean gameFinished;
   ImageObserver observer;
   public static SoundPlayer sp;
-  private LazarusWorld() {
-   
-  }
+
+  private LazarusWorld() {}
   
+  // get the current instance of game
   public static LazarusWorld getInstance(){
     return game;
   }
   
+  // initializes a new game
   public void init(){
 	  setFocusable(true);
 	    this.background = new ArrayList();
@@ -98,9 +99,10 @@ private Thread thread;
     setBackground(Color.white);
     this.observer = this;
 	 loadSprites();
-   loading();
-    
+   loading();  
   }
+
+  // loads new level and map
   public void loading(){
 	   
 	    this.level = new LazarusLevel("Resources/level.txt");
@@ -110,6 +112,8 @@ private Thread thread;
 	    addBackground(new BackgroundObject[] { new LazarusBackground(this.mapSize.x, this.mapSize.y, GameWorld.getSpeed(), (Image)sprites.get("background")) });
 	    this.level.load();
   }
+
+  // loads sprites
   protected void loadSprites(){
 	    sprites.put("background", getSprite("Resources/Background.gif"));
 	    sprites.put("wall", getSprite("Resources/Wall.gif"));
@@ -129,24 +133,22 @@ private Thread thread;
 	    sprites.put("Title", getSprite("Resources/Title.gif"));
 	    sprites.put("LazarusIcon", getSprite("Resources/lazarus.ico"));
 	    sprites.put("player1", getSprite("Resources/Lazarus_stand.png"));
-	  }
+	}
 	  
-	  public Image getSprite(String name){
-	    URL url = LazarusWorld.class.getResource(name);
-	    Image img = Toolkit.getDefaultToolkit().getImage(url);
-	    try{
-	      MediaTracker tracker = new MediaTracker(this);
-	      tracker.addImage(img, 0);
-	      tracker.waitForID(0);
-	    }
-	    catch (Exception localException) {}
-	    return img;
-	  }
+  // gets current sprite based on name
+  public Image getSprite(String name){
+    URL url = LazarusWorld.class.getResource(name);
+    Image img = Toolkit.getDefaultToolkit().getImage(url);
+    try{
+      MediaTracker tracker = new MediaTracker(this);
+      tracker.addImage(img, 0);
+      tracker.waitForID(0);
+    }
+    catch (Exception localException) {}
+    return img;
+  }
   
-	  /**********************************
-	  *   These functions GET things	*
-	  * 	 from the game world		*
-	  ***********************************/
+	// These all get something into the game world or do something pertaining to the game world
   public int getFrameNumber(){
     return clock.getFrame();
   }
@@ -184,11 +186,7 @@ private Thread thread;
     this.sizeY = h;
   }
   
-  /********************************
-   *   These functions ADD things *
-   * 	to the game world	      *
-   ********************************/
-  
+  // These all add/removes something into the game world or do something pertaining to the game world
   public void addFallingbox(Box... newObjects){
     Box[] arrayOfBox;
     int j = (arrayOfBox = newObjects).length;
@@ -304,8 +302,7 @@ private Thread thread;
     return this.walls.listIterator();
   }
   
-  // this is the main function where game stuff happens!
-  // each frame is also drawn here
+  // this is the main function where game stuff happens
   public void drawFrame(int w, int h, Graphics2D g2){
 	  ListIterator<?> iterator = getBackgroundObjects();
 
@@ -420,6 +417,8 @@ private Thread thread;
     }
   }
   }
+
+  // creates a new graphic with width w and height h
   public Graphics2D createGraphics2D(int w, int h){
     Graphics2D g2 = null;
     if ((this.bufferedImage == null) || (this.bufferedImage.getWidth() != w) || (this.bufferedImage.getHeight() != h)){
@@ -433,6 +432,7 @@ private Thread thread;
     return g2;
   }
   
+  // takes care of trailing colors and sprites
   public void paint(Graphics g){
     if (this.players.size() != 0){
       clock.tick();
@@ -444,16 +444,19 @@ private Thread thread;
     g.drawImage(this.bufferedImage, 0, 0, this);
   }
   
+  // adds a new clock observer
   public void addClockObserver(Observer theObject){
     clock.addObserver(theObject);
   }
   
+  // starts a new thread into the game
   public void start(){
     this.thread = new Thread(this);
     this.thread.setPriority(1);
     this.thread.start();
   }
   
+  // runs the new thread into the game
   public void run(){
     Thread me = Thread.currentThread();
     while (this.thread == me){
@@ -481,21 +484,23 @@ private Thread thread;
     game.start();
   }
   
- 
+  // checks to see if game is over or player is dead
   public boolean isGameOver(){
     return this.gameOver;
   }
   
+  // sets game to finished
   public void finishGame(){
     this.gameFinished = true;
   }
   
+  // updates observers with modifiers such as movement or collisions
   public void update(Observable o, Object arg) {
     AbstractGameModifier modifier = (AbstractGameModifier)o;
     modifier.read(this);
   }
   
- 
+// This is where the magic happens 
 public static void main(String[] argv){
     LazarusWorld game = getInstance();
     JFrame f = new JFrame("Lazarus");
